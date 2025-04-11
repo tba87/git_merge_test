@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Complete Git Reference</title>
+    <style>
+        :root {
+            --git-orange: #f05133;
+            --github-black: #24292e;
+            --code-bg: #1e1e1e;
+            --highlight-blue: #4285f4;
+            --highlight-green: #34a853;
+            --highlight-red: #ea4335;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.8;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            color: #2d2d2d;
+            background-color: #fafafa;
+        }
+        h1 {
+            color: var(--git-orange);
+            border-bottom: 3px solid var(--git-orange);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        h2 {
+            color: var(--github-black);
+            margin-top: 2.5rem;
+            padding-bottom: 0.3rem;
+            border-bottom: 1px solid #e1e4e8;
+        }
+        h3 {
+            color: #3a3a3a;
+            margin-top: 1.8rem;
+        }
+        .command {
+            background-color: var(--code-bg);
+            color: #e0e0e0;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            margin: 1.2rem 0;
+            overflow-x: auto;
+            border-left: 4px solid var(--git-orange);
+        }
+        .note {
+            background-color: #f0f7ff;
+            border-left: 4px solid var(--highlight-blue);
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+        .warning {
+            background-color: #fff0f0;
+            border-left: 4px solid var(--highlight-red);
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+        .best-practice {
+            background-color: #f0fff4;
+            border-left: 4px solid var(--highlight-green);
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-top: 3px solid var(--git-orange);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #e1e4e8;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        th {
+            background-color: #f6f8fa;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #fafbfc;
+        }
+        kbd {
+            background-color: #f6f8fa;
+            border: 1px solid #d1d5da;
+            border-radius: 3px;
+            box-shadow: inset 0 -1px 0 #d1d5da;
+            color: #24292e;
+            display: inline-block;
+            font-family: monospace;
+            font-size: 0.9em;
+            line-height: 1;
+            padding: 2px 5px;
+            vertical-align: middle;
+        }
+        a {
+            color: var(--highlight-blue);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>The Complete Git Reference</h1>
+    
+    <div class="note">
+        <strong>Git Philosophy:</strong> Git is a distributed version control system that emphasizes speed, data integrity, and support for distributed, non-linear workflows.
+    </div>
+    
+    <h2>Core Git Concepts</h2>
+    
+    <div class="grid">
+        <div class="card">
+            <h3>Three States</h3>
+            <ol>
+                <li><strong>Working Directory:</strong> Where you modify files</li>
+                <li><strong>Staging Area (Index):</strong> Prepared changes for next commit</li>
+                <li><strong>Git Directory (Repository):</strong> Where Git permanently stores commits</li>
+            </ol>
+        </div>
+        
+        <div class="card">
+            <h3>Object Types</h3>
+            <ul>
+                <li><strong>Blobs:</strong> File data</li>
+                <li><strong>Trees:</strong> Directory structure</li>
+                <li><strong>Commits:</strong> Snapshots with metadata</li>
+                <li><strong>Tags:</strong> Named references to commits</li>
+            </ul>
+        </div>
+    </div>
+    
+    <h2>Advanced Git Workflows</h2>
+    
+    <h3>1. Interactive Rebasing</h3>
+    <div class="command">
+        git rebase -i HEAD~5  # Rebase last 5 commits interactively
+    </div>
+    <p>During interactive rebase, you can:</p>
+    <ul>
+        <li><kbd>pick</kbd> - Use commit</li>
+        <li><kbd>reword</kbd> - Change commit message</li>
+        <li><kbd>edit</kbd> - Amend the commit</li>
+        <li><kbd>squash</kbd> - Combine with previous commit</li>
+        <li><kbd>fixup</kbd> - Like squash but discard message</li>
+        <li><kbd>drop</kbd> - Remove commit</li>
+    </ul>
+    
+    <h3>2. Partial Staging</h3>
+    <div class="command">
+        git add -p  # Stage changes patch by patch
+    </div>
+    <p>Respond to prompts:</p>
+    <ul>
+        <li><kbd>y</kbd> - Stage this hunk</li>
+        <li><kbd>n</kbd> - Don't stage</li>
+        <li><kbd>q</kbd> - Quit</li>
+        <li><kbd>s</kbd> - Split into smaller hunks</li>
+        <li><kbd>e</kbd> - Manually edit the hunk</li>
+    </ul>
+    
+    <h2>Git Internals</h2>
+    
+    <div class="best-practice">
+        <h3>How Git Stores Data</h3>
+        <p>Git is essentially a content-addressable filesystem with a VCS layer on top.</p>
+        <div class="command">
+            # Explore Git objects<br>
+            git cat-file -p HEAD       # View HEAD commit<br>
+            git ls-tree HEAD           # View tree of HEAD<br>
+            git hash-object file.txt   # Calculate object hash
+        </div>
+    </div>
+    
+    <h3>Refs and the Reflog</h3>
+    <table>
+        <tr>
+            <th>Reference</th>
+            <th>Location</th>
+            <th>Purpose</th>
+        </tr>
+        <tr>
+            <td>HEAD</td>
+            <td>.git/HEAD</td>
+            <td>Current commit reference</td>
+        </tr>
+        <tr>
+            <td>refs/heads/</td>
+            <td>.git/refs/heads/</td>
+            <td>Branch pointers</td>
+        </tr>
+        <tr>
+            <td>refs/tags/</td>
+            <td>.git/refs/tags/</td>
+            <td>Tag references</td>
+        </tr>
+        <tr>
+            <td>refs/remotes/</td>
+            <td>.git/refs/remotes/</td>
+            <td>Remote tracking branches</td>
+        </tr>
+    </table>
+    
+    <div class="command">
+        git reflog                  # Show reference log<br>
+        git reflog show 'HEAD@{1}'  # Show specific reflog entry
+    </div>
+    
+    <h2>Advanced Merging Techniques</h2>
+    
+    <div class="grid">
+        <div class="card">
+            <h3>Ours/Theirs Strategies</h3>
+            <div class="command">
+                # Resolve conflicts by preferring one side<br>
+                git merge -Xours their-branch<br>
+                git merge -Xtheirs their-branch
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>Rerere (Reuse Recorded Resolution)</h3>
+            <div class="command">
+                git config --global rerere.enabled true
+            </div>
+            <p>Git will remember how you resolved conflicts and automatically apply them to similar conflicts.</p>
+        </div>
+    </div>
+    
+    <h2>Submodules and Subtrees</h2>
+    
+    <div class="command">
+        # Submodule commands<br>
+        git submodule add https://github.com/user/repo.git path<br>
+        git submodule update --init --recursive<br>
+        git submodule foreach 'git pull origin main'<br><br>
+        
+        # Subtree commands<br>
+        git subtree add --prefix=lib https://github.com/user/lib.git main<br>
+        git subtree pull --prefix=lib https://github.com/user/lib.git main
+    </div>
+    
+    <div class="note">
+        <strong>Comparison:</strong> Submodules link to external repos, while subtrees copy code into your repo.
+    </div>
+    
+    <h2>Git Hooks Deep Dive</h2>
+    
+    <table>
+        <tr>
+            <th>Hook</th>
+            <th>Trigger</th>
+            <th>Common Uses</th>
+        </tr>
+        <tr>
+            <td>pre-commit</td>
+            <td>Before commit creation</td>
+            <td>Run linters, tests</td>
+        </tr>
+        <tr>
+            <td>prepare-commit-msg</td>
+            <td>Before commit editor opens</td>
+            <td>Modify default message</td>
+        </tr>
+        <tr>
+            <td>post-commit</td>
+            <td>After commit</td>
+            <td>Notifications</td>
+        </tr>
+        <tr>
+            <td>pre-push</td>
+            <td>Before push</td>
+            <td>Run full test suite</td>
+        </tr>
+    </table>
+    
+    <h2>Git Plumbing Commands</h2>
+    
+    <div class="command">
+        # Low-level commands<br>
+        git hash-object -w file.txt  # Create blob object<br>
+        git update-index --add file.txt  # Add to index<br>
+        git write-tree              # Create tree from index<br>
+        git commit-tree -m "msg" &lt;tree-hash&gt;  # Create commit<br>
+        git update-ref refs/heads/branch &lt;commit-hash&gt;  # Update branch
+    </div>
+    
+    <div class="warning">
+        <strong>Warning:</strong> Plumbing commands bypass safety checks - use with caution!
+    </div>
+    
+    <h2>Git Resources</h2>
+    
+    <div class="grid">
+        <div class="card">
+            <h3>Official Documentation</h3>
+            <ul>
+                <li><a href="https://git-scm.com/doc">Git Reference Manual</a></li>
+                <li><a href="https://git-scm.com/book">Pro Git Book</a></li>
+                <li><a href="https://github.com/git/git">Git Source Code</a></li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h3>Learning Resources</h3>
+            <ul>
+                <li><a href="https://ohmygit.org/">Oh My Git! (Game)</a></li>
+                <li><a href="https://learngitbranching.js.org/">Interactive Branching Tutorial</a></li>
+                <li><a href="https://git-school.github.io/visualizing-git/">Git Visualizer</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Mastering Git takes practice - create test repositories to experiment with these advanced features!</p>
+    </footer>
+</body>
+</html>
