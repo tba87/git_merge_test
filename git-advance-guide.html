@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Use Git - A Beginner's Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #f05133;
+            border-bottom: 2px solid #f05133;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #24292e;
+            margin-top: 25px;
+        }
+        .command {
+            background-color: #24292e;
+            color: #f8f8f8;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .note {
+            background-color: #f0f7ff;
+            border-left: 4px solid #4285f4;
+            padding: 10px;
+            margin: 15px 0;
+        }
+        .step {
+            background-color: #f8f8f8;
+            border-left: 4px solid #34a853;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>How to Use Git</h1>
+    
+    <div class="note">
+        <strong>Prerequisites:</strong> Git installed on your system. Download from <a href="https://git-scm.com/" target="_blank">git-scm.com</a>
+    </div>
+    
+    <h2>1. Setting Up Git</h2>
+    <p>Configure your Git username and email (used for commits):</p>
+    <div class="command">
+        git config --global user.name "Your Name"<br>
+        git config --global user.email "your.email@example.com"
+    </div>
+    
+    <h2>2. Starting a New Project</h2>
+    <div class="step">
+        <strong>Initialize a repository:</strong>
+        <div class="command">git init</div>
+        <p>This creates a new .git directory in your project folder.</p>
+    </div>
+    
+    <h2>3. Basic Workflow</h2>
+    <div class="step">
+        <strong>a. Check status of your files:</strong>
+        <div class="command">git status</div>
+    </div>
+    
+    <div class="step">
+        <strong>b. Stage changes:</strong>
+        <div class="command">
+            git add filename.txt       # Stage specific file<br>
+            git add .                  # Stage all changed files
+        </div>
+    </div>
+    
+    <div class="step">
+        <strong>c. Commit changes:</strong>
+        <div class="command">git commit -m "Descriptive message about changes"</div>
+        <p>This permanently saves your staged changes in version history.</p>
+    </div>
+    
+    <h2>4. Working with Branches</h2>
+    <div class="command">
+        git branch                    # List all branches<br>
+        git branch new-feature        # Create new branch<br>
+        git checkout new-feature     # Switch to branch<br>
+        git checkout -b new-branch    # Create and switch in one command
+    </div>
+    
+    <h2>5. Connecting to Remote (GitHub)</h2>
+    <div class="step">
+        <strong>a. Add remote repository:</strong>
+        <div class="command">git remote add origin https://github.com/user/repo.git</div>
+    </div>
+    
+    <div class="step">
+        <strong>b. Push to remote:</strong>
+        <div class="command">git push -u origin main</div>
+        <p>First push needs the -u flag to set upstream</p>
+    </div>
+    
+    <div class="step">
+        <strong>c. Pull latest changes:</strong>
+        <div class="command">git pull origin main</div>
+    </div>
+    
+    <h2>6. Common Scenarios</h2>
+    <div class="step">
+        <strong>Undo changes in a file:</strong>
+        <div class="command">git checkout -- filename.txt</div>
+    </div>
+    
+    <div class="step">
+        <strong>View commit history:</strong>
+        <div class="command">git log --oneline --graph</div>
+    </div>
+    
+    <div class="step">
+        <strong>Merge branches:</strong>
+        <div class="command">
+            git checkout main<br>
+            git merge feature-branch
+        </div>
+    </div>
+    
+    <div class="note">
+        <strong>Tip:</strong> Always pull the latest changes before starting work and before pushing your changes.
+    </div>
+    
+    <footer>
+        <p>Practice these commands in a test repository to get comfortable with Git!</p>
+    </footer>
+</body>
+</html>
