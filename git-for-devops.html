@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git for DevOps Engineers</title>
+    <style>
+        :root {
+            --devops-blue: #2496ed;
+            --git-orange: #f05133;
+            --warning-red: #ff4d4f;
+            --success-green: #52c41a;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.7;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            color: #333;
+        }
+        h1 {
+            color: var(--devops-blue);
+            border-bottom: 3px solid var(--devops-blue);
+            padding-bottom: 0.5rem;
+        }
+        h2 {
+            color: var(--git-orange);
+            margin-top: 2.5rem;
+            border-left: 4px solid var(--git-orange);
+            padding-left: 0.8rem;
+        }
+        h3 {
+            color: #444;
+            margin-top: 1.8rem;
+        }
+        .command {
+            background-color: #1e1e1e;
+            color: #f0f0f0;
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+            margin: 1.2rem 0;
+            overflow-x: auto;
+        }
+        .pipeline {
+            background-color: #f8f8f8;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+        .warning {
+            background-color: #fff2f0;
+            border-left: 4px solid var(--warning-red);
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+        .best-practice {
+            background-color: #f6ffed;
+            border-left: 4px solid var(--success-green);
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-top: 3px solid var(--devops-blue);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #e1e4e8;
+            padding: 0.8rem;
+        }
+        th {
+            background-color: #f6f8fa;
+        }
+    </style>
+</head>
+<body>
+    <h1>Git for DevOps Engineers</h1>
+    
+    <div class="best-practice">
+        <p>DevOps engineers need Git expertise beyond basic commit/push workflows to effectively manage CI/CD pipelines, infrastructure as code, and deployment strategies.</p>
+    </div>
+    
+    <h2>1. Git in CI/CD Pipelines</h2>
+    
+    <div class="pipeline">
+        <h3>Triggering Builds on Specific Conditions</h3>
+        <div class="command">
+            # Sample GitLab CI conditions<br>
+            rules:<br>
+            - if: '$CI_COMMIT_REF_NAME == "main"'<br>
+            - if: '$CI_COMMIT_TAG'<br>
+            - if: '$CI_COMMIT_MESSAGE =~ /\[deploy\]/'
+        </div>
+        
+        <div class="command">
+            # GitHub Actions branch/tag conditions<br>
+            on:<br>
+            push:<br>
+            &nbsp;&nbsp;branches: [ main ]<br>
+            &nbsp;&nbsp;tags: [ 'v*.*.*' ]
+        </div>
+    </div>
+    
+    <h3>Optimizing Pipeline Efficiency</h3>
+    <div class="grid">
+        <div class="card">
+            <h4>Shallow Cloning</h4>
+            <div class="command">
+                git clone --depth 1 https://repo.url
+            </div>
+            <p>Only clone recent history to save time/bandwidth in pipelines</p>
+        </div>
+        
+        <div class="card">
+            <h4>Sparse Checkout</h4>
+            <div class="command">
+                git config core.sparseCheckout true<br>
+                echo "src/module/" >> .git/info/sparse-checkout<br>
+                git checkout main
+            </div>
+            <p>Only checkout needed directories</p>
+        </div>
+        
+        <div class="card">
+            <h4>Partial Clone</h4>
+            <div class="command">
+                git clone --filter=blob:none https://repo.url
+            </div>
+            <p>Clone without file contents initially (fetch on demand)</p>
+        </div>
+    </div>
+    
+    <h2>2. Git Strategies for Infrastructure as Code</h2>
+    
+    <div class="best-practice">
+        <h3>GitOps Principles</h3>
+        <ol>
+            <li>Declarative infrastructure in Git</li>
+            <li>Canonical truth in main branch</li>
+            <li>Automated synchronization</li>
+            <li>Self-healing systems</li>
+        </ol>
+    </div>
+    
+    <h3>Managing Large Repositories</h3>
+    <table>
+        <tr>
+            <th>Technique</th>
+            <th>Command</th>
+            <th>Use Case</th>
+        </tr>
+        <tr>
+            <td>Git LFS</td>
+            <td>git lfs track "*.psd"</td>
+            <td>Large binary files</td>
+        </tr>
+        <tr>
+            <td>Git Annex</td>
+            <td>git annex add largefile.iso</td>
+            <td>Very large files</td>
+        </tr>
+        <tr>
+            <td>Submodules</td>
+            <td>git submodule add https://repo</td>
+            <td>Component-based IaC</td>
+        </tr>
+    </table>
+    
+    <h2>3. Advanced Git Hooks for DevOps</h2>
+    
+    <div class="command">
+        # Pre-receive hook example (server-side)<br>
+        #!/bin/bash<br>
+        while read oldrev newrev refname; do<br>
+        &nbsp;&nbsp;if [[ $refname = "refs/heads/production" ]]; then<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;if [[ $(git log --oneline $oldrev..$newrev | wc -l) > 1 ]]; then<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo "Production only allows single-commit pushes!"<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exit 1<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;fi<br>
+        &nbsp;&nbsp;fi<br>
+        done
+    </div>
+    
+    <div class="grid">
+        <div class="card">
+            <h4>Useful DevOps Hooks</h4>
+            <ul>
+                <li><strong>pre-commit:</strong> Terraform validate</li>
+                <li><strong>pre-push:</strong> Check secrets not committed</li>
+                <li><strong>post-merge:</strong> Run dependency updates</li>
+                <li><strong>pre-receive:</strong> Enforce branch policies</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h4>GitHub/GitLab Webhooks</h4>
+            <ul>
+                <li>Trigger deployments on push</li>
+                <li>Update external systems</li>
+                <li>Notify monitoring tools</li>
+                <li>Sync with issue trackers</li>
+            </ul>
+        </div>
+    </div>
+    
+    <h2>4. Security Practices</h2>
+    
+    <div class="warning">
+        <h3>Secrets Prevention</h3>
+        <div class="command">
+            # Detect secrets in history<br>
+            git secrets --scan-history<br>
+            <br>
+            # Purge secrets from history<br>
+            bfg --replace-text secrets.txt repo.git
+        </div>
+        <p>Always use secret managers (Vault, AWS Secrets Manager) instead of committing secrets!</p>
+    </div>
+    
+    <h3>Signed Commits and Tags</h3>
+    <div class="command">
+        git config --global commit.gpgsign true<br>
+        git tag -s v1.0 -m "Signed release tag"<br>
+        git verify-commit HEAD<br>
+        git verify-tag v1.0
+    </div>
+    
+    <h2>5. Git for Deployment Strategies</h2>
+    
+    <table>
+        <tr>
+            <th>Strategy</th>
+            <th>Git Implementation</th>
+            <th>Pros/Cons</th>
+        </tr>
+        <tr>
+            <td>Blue-Green</td>
+            <td>Tag-based routing</td>
+            <td>Fast rollback, double infrastructure</td>
+        </tr>
+        <tr>
+            <td>Canary</td>
+            <td>Feature branch deployments</td>
+            <td>Gradual rollout, complex routing</td>
+        </tr>
+        <tr>
+            <td>GitOps</td>
+            <td>Main branch sync</td>
+            <td>Declarative, requires automation</td>
+        </tr>
+    </table>
+    
+    <h2>6. Git Server Administration</h2>
+    
+    <div class="command">
+        # Git garbage collection (run on server)<br>
+        git gc --aggressive --prune=now<br>
+        <br>
+        # Repository integrity check<br>
+        git fsck --full<br>
+        <br>
+        # Reclaim space from LFS<br>
+        git lfs prune
+    </div>
+    
+    <div class="best-practice">
+        <h3>Git Server Maintenance</h3>
+        <ul>
+            <li>Schedule regular garbage collection</li>
+            <li>Monitor repository size growth</li>
+            <li>Implement backup strategies</li>
+            <li>Set repository size limits</li>
+        </ul>
+    </div>
+    
+    <h2>7. Monitoring and Analytics</h2>
+    
+    <div class="grid">
+        <div class="card">
+            <h4>Git Metrics</h4>
+            <ul>
+                <li>git shortlog -sn (contributors)</li>
+                <li>git log --since=1.week --pretty=format:"%h %an %s"</li>
+                <li>git rev-list --count HEAD (total commits)</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h4>DevOps Integration</h4>
+            <ul>
+                <li>Export to monitoring systems</li>
+                <li>Track deployment frequency</li>
+                <li>Measure lead time for changes</li>
+            </ul>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Master these Git techniques to build more reliable, secure, and efficient DevOps workflows.</p>
+    </footer>
+</body>
+</html>
