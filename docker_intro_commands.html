@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Complete Guide</title>
+    <style>
+        :root {
+            --docker-blue: #2496ed;
+            --vm-purple: #563d7c;
+            --success-green: #28a745;
+            --warning-orange: #fd7e14;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            color: #333;
+        }
+        h1 {
+            color: var(--docker-blue);
+            border-bottom: 3px solid var(--docker-blue);
+            padding-bottom: 0.5rem;
+        }
+        h2 {
+            color: var(--docker-blue);
+            margin-top: 2.5rem;
+        }
+        .command {
+            background-color: #1e1e1e;
+            color: #f0f0f0;
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: 'SFMono-Regular', Consolas, monospace;
+            margin: 1.2rem 0;
+            overflow-x: auto;
+        }
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .docker-card {
+            border-top: 3px solid var(--docker-blue);
+        }
+        .vm-card {
+            border-top: 3px solid var(--vm-purple);
+        }
+        .architecture {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        .use-case {
+            background-color: #f0f7ff;
+            border-left: 4px solid var(--docker-blue);
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 0.8rem;
+        }
+        th {
+            background-color: #f8f9fa;
+        }
+        .note {
+            background-color: #fff3cd;
+            border-left: 4px solid var(--warning-orange);
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Docker Complete Guide</h1>
+
+    <h2>What is Docker?</h2>
+    <p>Docker is a platform for developing, shipping, and running applications in lightweight, portable containers. Containers package applications with all their dependencies, ensuring consistent operation across different environments.</p>
+
+    <div class="architecture">
+        <h3>Docker Architecture</h3>
+        <p><strong>Docker Daemon</strong>: Background service managing containers</p>
+        <p><strong>Docker Client</strong>: CLI for interacting with the daemon</p>
+        <p><strong>Docker Images</strong>: Read-only templates for containers</p>
+        <p><strong>Docker Containers</strong>: Runnable instances of images</p>
+        <p><strong>Docker Registry</strong>: Storage for images (Docker Hub)</p>
+    </div>
+
+    <h2>Real-World Docker Use Cases</h2>
+
+    <div class="comparison">
+        <div class="card docker-card">
+            <h3>Microservices Architecture</h3>
+            <p>Each service runs in its own container, enabling independent scaling and deployment.</p>
+        </div>
+        <div class="card docker-card">
+            <h3>CI/CD Pipelines</h3>
+            <p>Consistent build environments across development, testing, and production.</p>
+        </div>
+        <div class="card docker-card">
+            <h3>Multi-Tier Applications</h3>
+            <p>Frontend, backend, and database each in separate containers.</p>
+        </div>
+        <div class="card docker-card">
+            <h3>Legacy Application Modernization</h3>
+            <p>Containerize old applications for easier deployment and management.</p>
+        </div>
+    </div>
+
+    <div class="use-case">
+        <h3>Example: Web Application Stack</h3>
+        <p>Nginx (web server) + Node.js (app server) + MongoDB (database) each running in separate containers, managed via Docker Compose.</p>
+    </div>
+
+    <h2>Docker vs Virtual Machines</h2>
+
+    <div class="comparison">
+        <div class="card docker-card">
+            <h3>Docker Containers</h3>
+            <ul>
+                <li>OS-level virtualization</li>
+                <li>Shares host OS kernel</li>
+                <li>Lightweight (MBs)</li>
+                <li>Fast startup (seconds)</li>
+                <li>High density (more per host)</li>
+                <li>Portable application packaging</li>
+            </ul>
+        </div>
+        <div class="card vm-card">
+            <h3>Virtual Machines</h3>
+            <ul>
+                <li>Hardware-level virtualization</li>
+                <li>Runs complete OS</li>
+                <li>Heavyweight (GBs)</li>
+                <li>Slow startup (minutes)</li>
+                <li>Low density (fewer per host)</li>
+                <li>Full system isolation</li>
+            </ul>
+        </div>
+    </div>
+
+    <table>
+        <tr>
+            <th>Feature</th>
+            <th>Docker</th>
+            <th>Virtual Machine</th>
+        </tr>
+        <tr>
+            <td>Isolation</td>
+            <td>Process level</td>
+            <td>System level</td>
+        </tr>
+        <tr>
+            <td>Performance</td>
+            <td>Near native</td>
+            <td>Hypervisor overhead</td>
+        </tr>
+        <tr>
+            <td>Disk Usage</td>
+            <td>MBs</td>
+            <td>GBs</td>
+        </tr>
+        <tr>
+            <td>Boot Time</td>
+            <td>Seconds</td>
+            <td>Minutes</td>
+        </tr>
+    </table>
+
+    <h2>How Docker Works</h2>
+
+    <div class="architecture">
+        <h3>Containerization Process</h3>
+        <ol>
+            <li><strong>Dockerfile</strong>: Blueprint for building images</li>
+            <li><strong>Image</strong>: Built from Dockerfile (read-only layers)</li>
+            <li><strong>Container</strong>: Runnable instance of image (with writable layer)</li>
+            <li><strong>Registry</strong>: Store and distribute images</li>
+        </ol>
+    </div>
+
+    <div class="note">
+        <p>Docker uses Linux kernel features like namespaces (isolated workspaces) and cgroups (resource limits) to create containers. On Windows/Mac, it runs in a lightweight VM.</p>
+    </div>
+
+    <h2>Installing Docker</h2>
+
+    <h3>Linux (Ubuntu/Debian)</h3>
+    <div class="command">
+        # Update packages<br>
+        sudo apt-get update<br><br>
+        
+        # Install prerequisites<br>
+        sudo apt-get install apt-transport-https ca-certificates curl gnupg lsb-release<br><br>
+        
+        # Add Docker's GPG key<br>
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg<br><br>
+        
+        # Set up stable repository<br>
+        echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null<br><br>
+        
+        # Install Docker Engine<br>
+        sudo apt-get update<br>
+        sudo apt-get install docker-ce docker-ce-cli containerd.io<br><br>
+        
+        # Verify installation<br>
+        sudo docker run hello-world
+    </div>
+
+    <h3>Windows/macOS</h3>
+    <ol>
+        <li>Download Docker Desktop from <a href="https://www.docker.com/products/docker-desktop" target="_blank">docker.com</a></li>
+        <li>Run the installer</li>
+        <li>Launch Docker Desktop after installation</li>
+    </ol>
+
+    <h2>Basic Docker Commands</h2>
+
+    <table>
+        <tr>
+            <th>Category</th>
+            <th>Command</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>Images</td>
+            <td>docker pull nginx</td>
+            <td>Download image from registry</td>
+        </tr>
+        <tr>
+            <td>Images</td>
+            <td>docker images</td>
+            <td>List local images</td>
+        </tr>
+        <tr>
+            <td>Containers</td>
+            <td>docker run -d -p 80:80 nginx</td>
+            <td>Run container in detached mode with port mapping</td>
+        </tr>
+        <tr>
+            <td>Containers</td>
+            <td>docker ps</td>
+            <td>List running containers</td>
+        </tr>
+        <tr>
+            <td>Containers</td>
+            <td>docker stop container_id</td>
+            <td>Stop running container</td>
+        </tr>
+        <tr>
+            <td>Containers</td>
+            <td>docker rm container_id</td>
+            <td>Remove stopped container</td>
+        </tr>
+        <tr>
+            <td>Build</td>
+            <td>docker build -t myapp .</td>
+            <td>Build image from Dockerfile</td>
+        </tr>
+        <tr>
+            <td>Info</td>
+            <td>docker logs container_id</td>
+            <td>View container logs</td>
+        </tr>
+        <tr>
+            <td>Info</td>
+            <td>docker exec -it container_id bash</td>
+            <td>Enter running container</td>
+        </tr>
+    </table>
+
+    <div class="note">
+        <h3>Docker Compose Basics</h3>
+        <p>For multi-container applications, use <code>docker-compose.yml</code>:</p>
+        <div class="command">
+            version: '3'<br>
+            services:<br>
+            &nbsp;&nbsp;web:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;image: nginx<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;ports:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- "80:80"<br>
+            &nbsp;&nbsp;app:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;build: .<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;depends_on:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- db<br>
+            &nbsp;&nbsp;db:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;image: postgres
+        </div>
+        <p>Run with: <code>docker-compose up -d</code></p>
+    </div>
+
+    <footer>
+        <p>Docker revolutionizes application deployment by providing consistent environments from development to production. Start with these basics and explore more advanced features as you containerize your applications.</p>
+    </footer>
+</body>
+</html>
